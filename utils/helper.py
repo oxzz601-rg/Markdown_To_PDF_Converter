@@ -1,8 +1,6 @@
+# Helper module for utility functions
 import os
-import subprocess
 
-def run_command(command):
-    try:
-        subprocess.check_call(command, shell=True)
-    except subprocess.CalledProcessError as e:
-        print(f'Error: {e}')
+# Function to check if a file has a specific extension
+def has_extension(file_path, extension):
+    return file_path.endswith(extension)
