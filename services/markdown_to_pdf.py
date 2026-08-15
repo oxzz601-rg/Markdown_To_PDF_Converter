@@ -1,14 +1,18 @@
 import os
 import sys
-from utils import helper
-from datetime import datetime
-import subprocess
+from markdown import markdown
+from pdfkit import from_string
+from utils.helper import get_file_extension, get_file_name
 
-class MarkdownToPdf:
-    @staticmethod
-    def convert(markdown_file, pdf_file):
-        # Use pandoc to convert markdown to pdf
-        pandoc_cmd = f'pandoc -s {markdown_file} -o {pdf_file}'
-        subprocess.run(pandoc_cmd, shell=True)
+class MarkdownToPdfConverter:
+    def convert(self, input_file, output_file):
+        try:
+            with open(input_file, 'r') as f:
+                markdown_text = f.read()
+            html = markdown(markdown_text)
+            from_string(html, output_file)
+        except Exception as e:
+            print(f'Error converting {input_file}: {str(e)}')
+            sys.exit(1)
 
-        print(f'Markdown file {markdown_file} converted to PDF: {pdf_file}')
+markdown_to_pdf = MarkdownToPdfConverter()
