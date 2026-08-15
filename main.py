@@ -1,38 +1,26 @@
-import argparse
 import os
-import markdown
-from xhtml2pdf import pisa
-from bs4 import BeautifulSoup
-
-def convert_markdown_to_html(markdown_text):
-    html = markdown.markdown(markdown_text)
-    return html
-
-def convert_html_to_pdf(html, output_filename):
-    with open(output_filename, 'wb') as f:
-        pisa.CreatePDF(html, dest=f)
+import sys
+import argparse
+from utils import converter
+from utils import helper
 
 def main():
     parser = argparse.ArgumentParser(description='Markdown to PDF converter')
-    parser.add_argument('input_file', help='Input Markdown file')
-    parser.add_argument('-o', '--output', help='Output PDF file')
+    parser.add_argument('input_file', type=str, help='Markdown file to convert')
+    parser.add_argument('-o', '--output', type=str, help='Output PDF file')
     args = parser.parse_args()
 
     if not args.output:
-        output_filename = os.path.splitext(args.input_file)[0] + '.pdf'
+        output_file = os.path.splitext(args.input_file)[0] + '.pdf'
     else:
-        output_filename = args.output
+        output_file = args.output
 
-    with open(args.input_file, 'r') as f:
-        markdown_text = f.read()
+    if not os.path.exists(args.input_file):
+        print(f'Error: Input file {args.input_file} not found')
+        sys.exit(1)
 
-    html = convert_markdown_to_html(markdown_text)
-    soup = BeautifulSoup(html, 'html.parser')
-    styled_html = str(soup)
-
-    convert_html_to_pdf(styled_html, output_filename)
-
-    print(f'PDF saved to {output_filename}')
+    converter.convert_markdown_to_pdf(args.input_file, output_file)
+    print(f'Conversion complete: {output_file}')
 
 if __name__ == '__main__':
     main()
