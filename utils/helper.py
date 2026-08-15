@@ -1,8 +1,9 @@
 import os
-import re
+import sys
+from datetime import datetime
 
-def validate_file_path(file_path):
-    if not os.path.exists(file_path):
-        raise FileNotFoundError(f'File {file_path} does not exist')
-    if not os.path.isfile(file_path):
-        raise IsADirectoryError(f'{file_path} is not a file')
+def get_current_time():
+    return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+def print_progress(message):
+    print(f'{get_current_time()} - {message}')

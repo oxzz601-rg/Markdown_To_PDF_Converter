@@ -1,15 +1,19 @@
-#!/usr/bin/env python3
 import os
-from utils.helper import run_command, file_exists
+from utils import helper
+from subprocess import Popen, PIPE
 
 class MarkdownToPdf:
     @staticmethod
     def convert(input_file, output_file):
-        if not file_exists(input_file):
-            print('Input file not found.')
-            return
-        command = f"pandoc -s {input_file} -o {output_file}"
-        run_command(command)
+        helper.print_progress('Converting Markdown to PDF...')
+        try:
+            command = f'pandoc -s {input_file} -o {output_file}'
+            process = Popen(command, shell=True, stdout=PIPE, stderr=PIPE)
+            output, error = process.communicate()
+            if process.returncode != 0:
+                raise Exception(error.decode('utf-8'))
+            helper.print_progress('Conversion successful')
+        except Exception as e:
+            helper.print_progress(f'Conversion failed: {str(e)}')
 
-if __name__ == '__main__':
-    MarkdownToPdf().convert('input.md', 'output.pdf')
+markdown_to_pdf = MarkdownToPdf()
