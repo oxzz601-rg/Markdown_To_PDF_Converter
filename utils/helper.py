@@ -1,9 +1,8 @@
 import os
 import sys
-from datetime import datetime
 
-def get_current_time():
-    return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+def get_file_extension(file_path):
+    return os.path.splitext(file_path)[1]
 
-def print_progress(message):
-    print(f'{get_current_time()} - {message}')
+def get_file_name(file_path):
+    return os.path.basename(file_path)

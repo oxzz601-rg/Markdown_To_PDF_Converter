@@ -1,17 +1,21 @@
 import unittest
 import os
-from main import convert_markdown_to_pdf
+import sys
+from main import main
 
 class TestMain(unittest.TestCase):
-    def test_convert_markdown_to_pdf(self):
-        # Create a temporary markdown file
+    def test_convert(self):
+        # Create a test markdown file
         with open('test.md', 'w') as f:
-            f.write('# Test\nThis is a test.\n')
+            f.write('# Test Markdown File')
+
         # Convert the markdown file to pdf
-        convert_markdown_to_pdf('test.md', 'test.pdf')
-        # Check if the pdf file is created
+        main(['-i', 'test.md', '-o', 'test.pdf'])
+
+        # Check if the pdf file exists
         self.assertTrue(os.path.exists('test.pdf'))
-        # Remove the temporary files
+
+        # Remove the test files
         os.remove('test.md')
         os.remove('test.pdf')
 

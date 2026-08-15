@@ -1,8 +1,8 @@
-import subprocess
 import os
-from utils.helper import get_file_extension, get_file_name, get_file_directory
+from utils import helper
+from datetime import datetime
 
-class MarkdownConverter:
-    def convert(self, input_file, output_file):
-        command = f'pandoc -s {input_file} -o {output_file}'
-        subprocess.run(command, shell=True)
+def convert(input_file, output_file):
+    # Use pandoc to convert markdown to pdf
+    command = f'pandoc -s {input_file} -o {output_file} --pdf-engine=xelatex'
+    os.system(command)
