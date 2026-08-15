@@ -1,18 +1,15 @@
+#!/usr/bin/env python3
 import os
-import sys
-from markdown import markdown
-from pdfkit import from_string
-from utils.helper import get_file_extension, get_file_name
+from utils.helper import run_command, file_exists
 
-class MarkdownToPdfConverter:
-    def convert(self, input_file, output_file):
-        try:
-            with open(input_file, 'r') as f:
-                markdown_text = f.read()
-            html = markdown(markdown_text)
-            from_string(html, output_file)
-        except Exception as e:
-            print(f'Error converting {input_file}: {str(e)}')
-            sys.exit(1)
+class MarkdownToPdf:
+    @staticmethod
+    def convert(input_file, output_file):
+        if not file_exists(input_file):
+            print('Input file not found.')
+            return
+        command = f"pandoc -s {input_file} -o {output_file}"
+        run_command(command)
 
-markdown_to_pdf = MarkdownToPdfConverter()
+if __name__ == '__main__':
+    MarkdownToPdf().convert('input.md', 'output.pdf')
