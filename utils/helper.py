@@ -1,8 +1,10 @@
 import os
-import sys
+import re
 
-def is_file_exists(file_path):
-    return os.path.exists(file_path)
+def clean_markdown(markdown_text):
+    # Remove any HTML tags
+    markdown_text = re.sub(r'<.*?>', '', markdown_text)
+    return markdown_text
 
-def get_file_extension(file_path):
-    return os.path.splitext(file_path)[1]
+def get_pdf_filename(markdown_filename):
+    return markdown_filename.replace('.md', '.pdf')
