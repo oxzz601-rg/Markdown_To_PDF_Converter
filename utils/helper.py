@@ -1,8 +1,8 @@
 import os
-import sys
+import subprocess
 
-def get_absolute_path(file_path):
-    return os.path.abspath(file_path)
-
-def get_file_extension(file_path):
-    return os.path.splitext(file_path)[1]
+def run_command(command):
+    try:
+        subprocess.check_call(command, shell=True)
+    except subprocess.CalledProcessError as e:
+        print(f'Error: {e}')
