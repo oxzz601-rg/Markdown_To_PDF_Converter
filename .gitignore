@@ -1,7 +1,4 @@
-# Ignore output PDF files
-*.pdf
-# Ignore temporary files
-*.tmp
-# Ignore operating system files
-.DS_Store
-Thumbs.db
+.env
+__pycache__/
+*.pyc
+.venv/
