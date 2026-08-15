@@ -1,8 +1,4 @@
-# Ignore Python bytecode files
-*.pyc
-# Ignore __pycache__ directories
+.env
 __pycache__/
-# Ignore virtual environment directories
-env/
-# Ignore PDF output files
-*.pdf
+*.pyc
+.venv/
