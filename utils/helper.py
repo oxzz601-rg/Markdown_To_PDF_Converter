@@ -1,10 +1,4 @@
 import os
-import re
 
-def clean_markdown(markdown_text):
-    # Remove any HTML tags
-    markdown_text = re.sub(r'<.*?>', '', markdown_text)
-    return markdown_text
-
-def get_pdf_filename(markdown_filename):
-    return markdown_filename.replace('.md', '.pdf')
+def get_file_extension(file_path):
+    return os.path.splitext(file_path)[1]
