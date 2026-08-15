@@ -1,7 +1,8 @@
-import subprocess
 import os
+import re
 
-def convert_markdown_to_pdf(input_file, output_file):
-    # Use pandoc to convert markdown to pdf
-    command = f"pandoc -s {input_file} -o {output_file}"
-    subprocess.run(command, shell=True)
+def validate_file_path(file_path):
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f'File {file_path} does not exist')
+    if not os.path.isfile(file_path):
+        raise IsADirectoryError(f'{file_path} is not a file')

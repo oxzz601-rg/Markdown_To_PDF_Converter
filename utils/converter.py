@@ -1,12 +1,21 @@
 import os
-from utils.helper import get_file_extension
+import sys
+from markdown import markdown
+from pdfkit import from_string
+from ..helper import validate_file_path
 
-def convert_markdown_to_pdf(markdown_file, pdf_file):
-    if get_file_extension(markdown_file) != '.md':
-        raise ValueError('Input file must be a Markdown file')
-    if get_file_extension(pdf_file) != '.pdf':
-        raise ValueError('Output file must be a PDF file')
-    # Convert Markdown to PDF using subprocess and pandoc
-    # For this example, we assume pandoc is installed and available in the system's PATH
-    pandoc_command = f"pandoc -s {markdown_file} -o {pdf_file}"
-    os.system(pandoc_command)
+def markdown_to_pdf(input_file, output_file):
+    validate_file_path(input_file)
+    with open(input_file, 'r', encoding='utf-8') as f:
+        markdown_content = f.read()
+    html_content = markdown(markdown_content)
+    options = {
+        'page-size': 'A4',
+        'margin-top': '0.75in',
+        'margin-right': '0.75in',
+        'margin-bottom': '0.75in',
+        'margin-left': '0.75in',
+        'encoding': 'UTF-8',
+        'no-outline': None
+    }
+    from_string(html_content, output_file, options=options)
