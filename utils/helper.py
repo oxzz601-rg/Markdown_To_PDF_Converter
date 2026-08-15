@@ -1,10 +1,6 @@
-import os
-import sys
-import subprocess
+import re
 
-def run_command(command):
-    try:
-        subprocess.check_call(command, shell=True)
-    except subprocess.CalledProcessError as e:
-        print(f'Error running command: {e}')
-        sys.exit(1)
+def clean_markdown_text(text):
+    # Remove any HTML tags
+    text = re.sub(r'<.*?>', '', text)
+    return text
