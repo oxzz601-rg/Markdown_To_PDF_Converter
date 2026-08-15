@@ -1,2 +1,3 @@
+*.pyc
 *.pdf
-*.md~
+__pycache__
