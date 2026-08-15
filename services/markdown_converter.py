@@ -1,19 +1,36 @@
 import os
-import sys
-from utils.helper import is_file_exists, get_file_extension
-from subprocess import call
+import pdfkit
+from markdown import markdown
+from bs4 import BeautifulSoup
 
-def convert_markdown_to_pdf(markdown_file, pdf_file):
-    if not is_file_exists(markdown_file):
-        print('Input file not found.')
-        sys.exit(1)
+def convert(markdown_file, pdf_file):
+    with open(markdown_file, 'r') as f:
+        markdown_text = f.read()
 
-    if get_file_extension(markdown_file) != '.md':
-        print('Input file is not a Markdown file.')
-        sys.exit(1)
+    html = markdown(markdown_text)
+    soup = BeautifulSoup(html, 'html.parser')
 
-    if get_file_extension(pdf_file) != '.pdf':
-        print('Output file is not a PDF file.')
-        sys.exit(1)
+    # Remove unnecessary elements
+    for element in soup.find_all(['script', 'style']):
+        element.decompose()
 
-    call(['pandoc', '-s', '--pdf-engine=wkhtmltopdf', markdown_file, '-o', pdf_file])
+    # Save HTML to temporary file
+    temp_html_file = 'temp.html'
+    with open(temp_html_file, 'w') as f:
+        f.write(str(soup))
+
+    # Convert HTML to PDF using pdfkit
+    options = {
+        'page-size': 'Letter',
+        'margin-top': '0.75in',
+        'margin-right': '0.75in',
+        'margin-bottom': '0.75in',
+        'margin-left': '0.75in',
+        'encoding': 'UTF-8',
+        'no-outline': None,
+        'quiet': ''
+    }
+    pdfkit.from_file(temp_html_file, pdf_file, options=options)
+
+    # Remove temporary HTML file
+    os.remove(temp_html_file)

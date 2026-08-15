@@ -1,8 +1,9 @@
 import os
-import sys
+import subprocess
 
-def get_file_extension(file_path):
-    return os.path.splitext(file_path)[1]
-
-def get_file_name(file_path):
-    return os.path.basename(file_path)
+def run_command(command, cwd=None):
+    try:
+        subprocess.run(command, cwd=cwd, check=True, shell=True)
+    except subprocess.CalledProcessError as e:
+        print(f'Error: {e}')
+        sys.exit(1)
