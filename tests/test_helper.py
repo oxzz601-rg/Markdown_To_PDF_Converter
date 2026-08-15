@@ -1,8 +1,7 @@
 import unittest
-import os
-from main import convert_markdown_to_pdf
+from utils.helper import convert_markdown_to_pdf
 
-class TestMain(unittest.TestCase):
+class TestHelper(unittest.TestCase):
     def test_convert_markdown_to_pdf(self):
         # Create a temporary markdown file
         with open('test.md', 'w') as f:
