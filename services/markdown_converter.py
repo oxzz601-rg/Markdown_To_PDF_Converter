@@ -1,21 +1,19 @@
-# Service module for Markdown to PDF conversion
 import os
-import pdfkit
-import markdown
+import sys
+from utils.helper import is_file_exists, get_file_extension
+from subprocess import call
 
-# Function to convert Markdown to PDF
-def convert(input_file, output_file):
-    # Read Markdown file
-    with open(input_file, 'r') as f:
-        markdown_content = f.read()
+def convert_markdown_to_pdf(markdown_file, pdf_file):
+    if not is_file_exists(markdown_file):
+        print('Input file not found.')
+        sys.exit(1)
 
-    # Convert Markdown to HTML
-    html_content = markdown.markdown(markdown_content)
+    if get_file_extension(markdown_file) != '.md':
+        print('Input file is not a Markdown file.')
+        sys.exit(1)
 
-    # Convert HTML to PDF
-    options = {
-        'page-size': 'Letter',
-        'margin-top': '0.75in',
-        'header-spacing': '5',
-    }
-    pdfkit.from_string(html_content, output_file, options=options)
+    if get_file_extension(pdf_file) != '.pdf':
+        print('Output file is not a PDF file.')
+        sys.exit(1)
+
+    call(['pandoc', '-s', '--pdf-engine=wkhtmltopdf', markdown_file, '-o', pdf_file])
