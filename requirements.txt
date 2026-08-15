@@ -1,1 +1,1 @@
-argparse
+# No external dependencies
