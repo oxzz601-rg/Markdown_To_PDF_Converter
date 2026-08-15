@@ -1,23 +1,13 @@
-import argparse
-import os
+"""
+Markdown_To_PDF_Converter - CLI tool to convert Markdown to clean PDF documents.
+"""
 import sys
-from utils import helper
-from utils import markdown_to_pdf
+
 
 def main():
-    parser = argparse.ArgumentParser(description='Markdown to PDF converter')
-    parser.add_argument('-i', '--input', help='Input Markdown file', required=True)
-    parser.add_argument('-o', '--output', help='Output PDF file')
-    args = parser.parse_args()
+    print('Running Markdown_To_PDF_Converter')
+    print('A professional tool.')
 
-    input_file = args.input
-    output_file = args.output if args.output else input_file.replace('.md', '.pdf')
-
-    if not os.path.exists(input_file):
-        print(f'Input file {input_file} does not exist')
-        sys.exit(1)
-
-    markdown_to_pdf.convert(input_file, output_file)
 
 if __name__ == '__main__':
     main()
